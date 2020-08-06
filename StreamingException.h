@@ -1,11 +1,11 @@
 #pragma once
 
+#include <filesystem>
 #include <iostream>
 #include <memory>
 #include <optional>
 #include <sstream>
 #include <stdexcept>
-#include <filesystem>
 
 class StreamingException : public std::runtime_error
 {
@@ -27,6 +27,11 @@ public:
       , m_function(std::move(function))
       , m_line_number(line_number)
    {
+      // __func__ is boringly undecorated
+      if(!m_function->empty() && (*m_function)[m_function->length() - 1] != ')')
+      {
+         (*m_function) += "()";
+      }
    }
    StreamingException(std::string function, int line_number)
       : std::runtime_error("")
@@ -36,6 +41,11 @@ public:
       , m_function(std::move(function))
       , m_line_number(line_number)
    {
+      // __func__ is boringly undecorated
+      if(!m_function->empty() && (*m_function)[m_function->length() - 1] != ')')
+      {
+         (*m_function) += "()";
+      }
    }
    StreamingException(const StreamingException &) = default;
    StreamingException(StreamingException &&)      = default;
@@ -55,7 +65,7 @@ public:
       std::ostringstream location;
       if(m_filename && m_function && m_line_number)
       {
-         location << m_filename.value() << ':' << m_function.value() << ':' << m_line_number.value() << ' ';
+         location << m_filename.value() << ':' << m_line_number.value() << ' ' << m_function.value() << ' ';
       }
       else if(m_function && m_line_number)
       {
@@ -81,5 +91,12 @@ private:
    std::optional<std::string>                 m_function;
    std::optional<int>                         m_line_number;
 };
+
+// clang-format off
+#define FFL  __FILE__,__func__,__LINE__
+#define FPFL __FILE__,__PRETTY_FUNCTION__,__LINE__
+#define FL   __func__,__LINE__
+#define PFL  __PRETTY_FUNCTION__,__LINE__
+// clang-format on
 
 // vim: ts=3 sw=3 ai et nohls mps=(\:),{\:},[\:],<\:> ff=unix ffs=unix bg=dark

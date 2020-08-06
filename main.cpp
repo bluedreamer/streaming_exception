@@ -49,7 +49,7 @@ auto function2() -> void
    double      d{3.142};
    std::string s{"I kanna do it Captain!"};
 
-   throw StreamingException(__FILE__, __func__, __LINE__) << "This is my error: " << i << ", " << d << " because: " << s;
+   throw StreamingException(FFL) << "This is my error: " << i << ", " << d << " because: " << s;
 }
 
 auto function3() -> void
@@ -58,7 +58,7 @@ auto function3() -> void
    double      d{3.142};
    std::string s{"I kanna do it Captain!"};
 
-   throw StreamingException(__FILE__, __PRETTY_FUNCTION__, __LINE__) << "This is my error: " << i << ", " << d << " because: " << s;
+   throw StreamingException(FPFL) << "This is my error: " << i << ", " << d << " because: " << s;
 }
 
 auto function4() -> void
@@ -67,7 +67,7 @@ auto function4() -> void
    double      d{3.142};
    std::string s{"I kanna do it Captain!"};
 
-   throw StreamingException(__PRETTY_FUNCTION__, __LINE__) << "This is my error: " << i << ", " << d << " because: " << s;
+   throw StreamingException(PFL) << "This is my error: " << i << ", " << d << " because: " << s;
 }
 
 // vim: ts=3 sw=3 ai et nohls mps=(\:),{\:},[\:],<\:> ff=unix ffs=unix bg=dark
