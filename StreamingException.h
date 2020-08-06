@@ -5,6 +5,7 @@
 #include <optional>
 #include <sstream>
 #include <stdexcept>
+#include <filesystem>
 
 class StreamingException : public std::runtime_error
 {
@@ -22,7 +23,7 @@ public:
       : std::runtime_error("")
       , m_stream(std::make_shared<std::stringstream>())
       , m_message()
-      , m_filename(std::move(filename))
+      , m_filename(std::move(std::filesystem::path(std::move(filename)).filename()))
       , m_function(std::move(function))
       , m_line_number(line_number)
    {
