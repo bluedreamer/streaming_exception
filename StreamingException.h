@@ -62,6 +62,7 @@ public:
 
    auto what() const noexcept -> const char * override
    {
+      m_message.clear();
       std::ostringstream location;
       if(m_filename && m_function && m_line_number)
       {

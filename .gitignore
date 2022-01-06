@@ -1,2 +1,5 @@
 exception_test
 *.[ado]
+.swp
+.*.swp
+.idea/
